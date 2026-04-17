@@ -28,7 +28,7 @@ COPY migrations ./migrations
 RUN apk add --no-cache wget
 
 RUN addgroup -g 1001 -S app && adduser -u 1001 -S app -G app
-USER appw
+USER app
 
 EXPOSE 3000
 
