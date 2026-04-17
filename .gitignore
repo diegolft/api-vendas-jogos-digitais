@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.DS_Store
+coverage
+
+# outros gerenciadores (projeto usa Bun)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.pnpm-store
