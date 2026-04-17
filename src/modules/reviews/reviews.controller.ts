@@ -9,13 +9,17 @@
   Query,
   Res,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import type { AuthenticatedUser } from '../../shared/interfaces/authenticated-user.interface';
 import { ListReviewsDto } from './dto/list-reviews.dto';
 import { UpsertReviewDto } from './dto/upsert-review.dto';
 import { ReviewsService } from './reviews.service';
 
+@ApiTags('Avaliações')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('avaliacoes')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}

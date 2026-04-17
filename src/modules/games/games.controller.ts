@@ -10,13 +10,17 @@
   Query,
   Res,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { PROFILE_NAMES } from '../../shared/constants/profile.constants';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { ListGamesDto } from './dto/list-games.dto';
 import { UpsertGameDto } from './dto/upsert-game.dto';
 import { GamesService } from './games.service';
 
+@ApiTags('Jogos (admin)')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('jogos')
 export class GamesController {
   constructor(private readonly gamesService: GamesService) {}

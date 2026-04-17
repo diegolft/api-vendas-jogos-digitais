@@ -1,9 +1,13 @@
 ﻿import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../shared/interfaces/authenticated-user.interface';
 import { AddCartItemDto } from './dto/add-cart-item.dto';
 import { CartsService } from './carts.service';
 
+@ApiTags('Carrinho')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('carrinho')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}

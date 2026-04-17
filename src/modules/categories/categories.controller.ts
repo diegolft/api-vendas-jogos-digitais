@@ -1,7 +1,11 @@
 ﻿import { Controller, Get, Param, ParseIntPipe, Res } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { CategoriesService } from './categories.service';
 
+@ApiTags('Categorias')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('categorias')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}

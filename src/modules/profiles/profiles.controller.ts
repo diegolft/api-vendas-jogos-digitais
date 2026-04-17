@@ -1,9 +1,13 @@
 ﻿import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PROFILE_NAMES } from '../../shared/constants/profile.constants';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfilesService } from './profiles.service';
 
+@ApiTags('Perfis')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}

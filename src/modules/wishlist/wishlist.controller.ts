@@ -1,9 +1,13 @@
 ﻿import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../shared/interfaces/authenticated-user.interface';
 import { WishlistGameDto } from './dto/wishlist-game.dto';
 import { WishlistService } from './wishlist.service';
 
+@ApiTags('Lista de desejos')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('lista-desejo')
 export class WishlistController {
   constructor(private readonly wishlistService: WishlistService) {}

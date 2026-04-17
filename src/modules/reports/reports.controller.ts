@@ -1,8 +1,12 @@
 ﻿import { Controller, Get, Query, Res } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { MostSoldGamesReportDto } from './dto/most-sold-games-report.dto';
 import { ReportsService } from './reports.service';
 
+@ApiTags('Relatórios')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('relatorios')
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}

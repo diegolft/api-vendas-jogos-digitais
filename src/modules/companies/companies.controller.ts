@@ -10,13 +10,17 @@
   Query,
   Res,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { PROFILE_NAMES } from '../../shared/constants/profile.constants';
+import { SWAGGER_BEARER_NAME } from '../../shared/constants/swagger.constants';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { ManageCompanyDto } from './dto/manage-company.dto';
 import { SearchCompanyDto } from './dto/search-company.dto';
 import { CompaniesService } from './companies.service';
 
+@ApiTags('Empresas')
+@ApiBearerAuth(SWAGGER_BEARER_NAME)
 @Controller('empresas')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
