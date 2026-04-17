@@ -16,9 +16,10 @@ export class ProfilesService {
   }
 
   async getClientProfileOrThrow() {
+    await this.profilesRepository.ensureBaseProfiles();
     const profile = await this.profilesRepository.findByName(PROFILE_NAMES.CLIENT);
     if (!profile) {
-      throw new InternalServerErrorException('Perfil de cliente nÃ£o encontrado.');
+      throw new InternalServerErrorException('Perfil de cliente não encontrado.');
     }
 
     return profile;
@@ -27,7 +28,7 @@ export class ProfilesService {
   async create(createProfileDto: CreateProfileDto) {
     const existingProfile = await this.profilesRepository.findByName(createProfileDto.nome);
     if (existingProfile) {
-      throw new ConflictException('Este perfil jÃ¡ existe.');
+      throw new ConflictException('Este perfil já existe.');
     }
 
     return this.profilesRepository.create(createProfileDto.nome);

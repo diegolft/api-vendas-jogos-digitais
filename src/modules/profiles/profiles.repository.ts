@@ -2,6 +2,7 @@
 import { asc, eq } from 'drizzle-orm';
 import { DatabaseService } from '../../infra/database/database.service';
 import { profilesTable } from '../../infra/database/schema';
+import { PROFILE_NAMES } from '../../shared/constants/profile.constants';
 
 @Injectable()
 export class ProfilesRepository {
@@ -32,6 +33,14 @@ export class ProfilesRepository {
       .limit(1);
 
     return profile ?? null;
+  }
+
+  /** Garante Administrador e Cliente (equivalente ao início do seed). Idempotente. */
+  async ensureBaseProfiles(): Promise<void> {
+    await this.databaseService.db
+      .insert(profilesTable)
+      .values([{ nome: PROFILE_NAMES.ADMIN }, { nome: PROFILE_NAMES.CLIENT }])
+      .onConflictDoNothing({ target: profilesTable.nome });
   }
 
   async create(nome: string) {

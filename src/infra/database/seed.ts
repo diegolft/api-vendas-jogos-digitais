@@ -4,7 +4,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { PROFILE_NAMES } from '../../shared/constants/profile.constants';
 import { hashPassword } from '../../shared/utils/password.util';
-import { getDatabaseUrlFromEnv, getPgSslFromEnv } from './database.config';
+import { buildPgPoolConfigFromEnv } from './database.config';
 import { categorySeeds, companySeeds, gameSeeds } from './seeds/catalog.seed';
 import {
   categoriesTable,
@@ -15,11 +15,7 @@ import {
 } from './schema';
 
 async function main() {
-  const ssl = getPgSslFromEnv(process.env);
-  const pool = new Pool({
-    connectionString: getDatabaseUrlFromEnv(process.env),
-    ssl: ssl === false ? false : ssl,
-  });
+  const pool = new Pool(buildPgPoolConfigFromEnv(process.env));
 
   try {
     const db = drizzle(pool);
