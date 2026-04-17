@@ -3,6 +3,8 @@ export interface EnvironmentVariables {
   APP_PORT: number;
   JWT_SECRET: string;
   DATABASE_URL?: string;
+  DATABASE_SSL?: string;
+  DATABASE_SSL_REJECT_UNAUTHORIZED?: string;
   DB_HOST?: string;
   DB_PORT?: number;
   DB_NAME?: string;
@@ -47,6 +49,7 @@ export function validateEnvironment(config: Record<string, unknown>): Environmen
 
   if (typeof config.DATABASE_URL === 'string' && config.DATABASE_URL.trim().length > 0) {
     environment.DATABASE_URL = config.DATABASE_URL.trim();
+    copyOptionalDatabaseSsl(config, environment);
     return environment;
   }
 
@@ -56,6 +59,23 @@ export function validateEnvironment(config: Record<string, unknown>): Environmen
   environment.DB_USER = ensureString(config.DB_USER, 'DB_USER');
   environment.DB_PASSWORD = ensureString(config.DB_PASSWORD, 'DB_PASSWORD');
 
+  copyOptionalDatabaseSsl(config, environment);
+
   return environment;
+}
+
+function copyOptionalDatabaseSsl(
+  config: Record<string, unknown>,
+  environment: EnvironmentVariables,
+): void {
+  if (typeof config.DATABASE_SSL === 'string' && config.DATABASE_SSL.trim().length > 0) {
+    environment.DATABASE_SSL = config.DATABASE_SSL.trim();
+  }
+  if (
+    typeof config.DATABASE_SSL_REJECT_UNAUTHORIZED === 'string' &&
+    config.DATABASE_SSL_REJECT_UNAUTHORIZED.trim().length > 0
+  ) {
+    environment.DATABASE_SSL_REJECT_UNAUTHORIZED = config.DATABASE_SSL_REJECT_UNAUTHORIZED.trim();
+  }
 }
 
